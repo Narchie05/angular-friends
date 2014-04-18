@@ -28,39 +28,30 @@
 <form class="form-inline searchForm" role="form">
   <div class="form-group">
 
-  <input class="form-control" placeholder="Search Anything About Your Friends" >
-  <!-- The stuff below is For step 5....get rid of the one above if you wish-->
-<!--    
-    <input class="form-control" placeholder="Search Your Friends' Name" >
-    <input class="form-control" placeholder="Search Your Freinds' Location" > 
- -->
-    <select class="input-medium">
-        <option>Name</option>
-        <option># friends</option>
-        <option>City</option>
-        <option>State</option>
-        <option>Country</option>
-    </select>
-    <select class="input-medium">
-        <option value="false">Descending</option>
-        <option value="true">Ascending</option>
-    </select>
+      <input class="form-control" placeholder="Search Your Friends' Name" ng-model="search.name">
+         <input class="form-control" placeholder="Search Your Freinds' Location" ng-model="search.current_location">
+         <select ng-model="sortProperty"
+           ng-options="prop.value as prop.text for prop in sortProperties">
+
+             <select class="input-medium" ng-model="sortDirection"
+                  ng-options="dir.value as dir.text for dir in sortDirections">
+
+
   </div>
 </form>
 
   <ul>
-    <li class='friend' ng-repeat="person in friends">
-       <img class="profile-pic" src='https://scontent-a.xx.fbcdn.net/hprofile-ash3/833_10200838803828124_1233160321_a.jpg'>
+    <li class='friend' ng-repeat="person in friends|filter:search|orderBy:sortProperty:sortDirection">
+       <img class="profile-pic" ng-src={{person.pic_square}}>
       <h3>{{person.name}}</h3>
       <div class="location">
-        Location: {{current_location.city}} {{current_location.state}}
-          {{current_location.country}}{{current_location.name}}
+        Location: {{person.current_location.city}}
       </div>      
       <div class="status">
         Status: I hate the snow. I wish I was on the beach right now!!! <span class="hashtag">#ihateprovo</span>
       </div>      
       <div class="num-friends">
-        Friends: 1,367
+        {{person.friend_count}}
       </div>
     </li>
   </ul>
